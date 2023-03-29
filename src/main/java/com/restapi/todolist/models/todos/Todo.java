@@ -1,5 +1,6 @@
 package com.restapi.todolist.models.todos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.restapi.todolist.models.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,15 @@ public class Todo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
+
+//    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//    @JsonIdentityReference(alwaysAsId=true)
     private User user;
+
+//    @JsonProperty("user_id")
+//    public Long getUserId() {
+//        return user.getId();
+//    }
 
 }

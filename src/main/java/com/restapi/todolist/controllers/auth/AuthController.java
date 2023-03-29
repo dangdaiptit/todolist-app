@@ -1,4 +1,4 @@
-package com.restapi.todolist.controllers;
+package com.restapi.todolist.controllers.auth;
 
 
 import com.restapi.todolist.models.users.ERole;
@@ -49,7 +49,7 @@ public class AuthController {
         this.encoder = encoder;
     }
 
-    @PostMapping(path = "/signin")
+    @PostMapping(path = "/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,7 +76,7 @@ public class AuthController {
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
+        if (strRoles == null || strRoles.isEmpty()) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
