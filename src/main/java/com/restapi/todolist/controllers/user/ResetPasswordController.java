@@ -42,10 +42,10 @@ public class ResetPasswordController {
         String otp = otpVerificationRequest.getOtp();
         if (!userService.verifyOtp(email, otp)) {
             isOtpVerified = false;
-            return ResponseEntity.badRequest().body(new ResetPasswordResponse(true, "OTP verified successfully."));
+            return ResponseEntity.badRequest().body(new ResetPasswordResponse(false, "Invalid OTP code."));
         }
         isOtpVerified = true;
-        return ResponseEntity.ok(new ResetPasswordResponse(true, "Invalid OTP code."));
+        return ResponseEntity.ok(new ResetPasswordResponse(true, "OTP verified successfully."));
     }
 
 
