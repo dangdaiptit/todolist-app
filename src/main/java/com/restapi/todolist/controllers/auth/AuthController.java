@@ -54,7 +54,6 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         User user = userRepository.findUserByUsernameOrEmail(loginRequest.getUsername(), loginRequest.getUsername()).orElseThrow(() -> new EntityNotFoundException("User not found with username or email: " + loginRequest.getUsername()));
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);

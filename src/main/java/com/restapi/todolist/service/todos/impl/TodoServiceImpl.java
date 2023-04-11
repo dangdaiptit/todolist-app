@@ -46,7 +46,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     @PostAuthorize("returnObject.user.username == authentication.name")
     public Todo updateTodo(Todo todoUpdated, Long id) {
-        Todo todo = todoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Todo not found with id " + id));
+        var todo = todoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Todo not found with id " + id));
         todo.setDescription(todoUpdated.getDescription());
         todo.setTargetDate(todoUpdated.getTargetDate());
         todo.setCompleted(todoUpdated.isCompleted());
