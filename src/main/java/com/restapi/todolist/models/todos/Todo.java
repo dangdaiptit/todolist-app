@@ -31,14 +31,6 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
-
-//    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-//    @JsonIdentityReference(alwaysAsId=true)
     private User user;
-
-//    @JsonProperty("user_id")
-//    public Long getUserId() {
-//        return user.getId();
-//    }
 
 }

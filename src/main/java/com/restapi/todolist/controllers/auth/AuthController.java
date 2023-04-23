@@ -73,6 +73,10 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        if (!signupRequest.getPassword().equals(signupRequest.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Password and confirm password do not match"));
+        }
+
         //Create new user's account
         User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), encoder.encode(signupRequest.getPassword()));
 
