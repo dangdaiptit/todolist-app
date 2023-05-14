@@ -3,6 +3,7 @@ package com.restapi.todolist.service.users.impl;
 import com.restapi.todolist.models.users.ERole;
 import com.restapi.todolist.models.users.Role;
 import com.restapi.todolist.models.users.User;
+import com.restapi.todolist.payload.request.ChangeEmailRequest;
 import com.restapi.todolist.payload.request.ChangePasswordRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
@@ -65,13 +66,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeEmail(String email) {
+    public void changeEmail(ChangeEmailRequest changeEmailRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found with username " + username));
-        user.setEmail(email);
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+
+        if (!passwordEncoder.matches(changeEmailRequest.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("User password: " + username + " is incorrect ");
+        }
+
+        if (userRepository.existsUserByEmail(changeEmailRequest.getEmail())) {
+            throw new IllegalArgumentException("Email already exists!");
+        }
+
+        user.setEmail(changeEmailRequest.getEmail());
         userRepository.save(user);
+
     }
+
+//    @Override
+//    public void changeEmail(String email) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found with username " + username));
+//        user.setEmail(email);
+//        userRepository.save(user);
+//    }
 
     @Override
     public void requestPasswordReset(String email) {
@@ -86,7 +106,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void resetPassword(String email, ResetPasswordRequest resetPasswordRequest) {
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found with email " + email));
-        if (!resetPasswordRequest.getPassword().equals(resetPasswordRequest.getConfirmPassword())){
+        if (!resetPasswordRequest.getPassword().equals(resetPasswordRequest.getConfirmPassword())) {
             throw new IllegalArgumentException("New password and confirm password do not match");
         }
         user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
@@ -124,6 +144,26 @@ public class UserServiceImpl implements UserService {
         }
         return sb.toString();
     }
+
+    @Override
+    public User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userRepository.findUserByUsername(username).orElseThrow(() -> {
+            throw new EntityNotFoundException("User not found with username: " + username);
+        });
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
 
     //for admin...
     @Override

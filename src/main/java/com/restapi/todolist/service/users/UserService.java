@@ -1,6 +1,7 @@
 package com.restapi.todolist.service.users;
 
 import com.restapi.todolist.models.users.User;
+import com.restapi.todolist.payload.request.ChangeEmailRequest;
 import com.restapi.todolist.payload.request.ChangePasswordRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
@@ -13,7 +14,7 @@ public interface UserService {
     //user
     void changePassword(ChangePasswordRequest changePasswordRequest);
 
-    void changeEmail(String email);
+    void changeEmail(ChangeEmailRequest changeEmailRequest);
 
     void requestPasswordReset(String email) throws IOException;
 
@@ -26,6 +27,11 @@ public interface UserService {
     boolean verifyOtp(String email, String otp);
 
     String generateOtp();
+
+    User getUser();
+
+    boolean checkPassword(String password);
+
 
     //admin
     User getUserById(Long id);
