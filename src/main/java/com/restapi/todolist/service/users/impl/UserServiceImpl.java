@@ -6,6 +6,7 @@ import com.restapi.todolist.models.users.User;
 import com.restapi.todolist.payload.request.ChangeEmailRequest;
 import com.restapi.todolist.payload.request.ChangePasswordRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
+import com.restapi.todolist.payload.request.admin.AdminChangeEmailRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
 import com.restapi.todolist.repository.users.RoleRepository;
 import com.restapi.todolist.repository.users.UserRepository;
@@ -84,14 +85,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-//    @Override
-//    public void changeEmail(String email) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-//        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found with username " + username));
-//        user.setEmail(email);
-//        userRepository.save(user);
-//    }
 
     @Override
     public void requestPasswordReset(String email) {
@@ -194,12 +187,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeEmailById(Long id, User userUpdated) {
+    public void changeEmailById(Long id, AdminChangeEmailRequest adminChangeEmailRequest) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        if (userRepository.existsUserByEmail(userUpdated.getEmail())) {
+        if (userRepository.existsUserByEmail(adminChangeEmailRequest.getEmail())) {
             throw new IllegalArgumentException("Error: Email is already in use!");
         }
-        user.setEmail(user.getEmail());
+        user.setEmail(adminChangeEmailRequest.getEmail());
         userRepository.save(user);
     }
 

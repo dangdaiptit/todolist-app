@@ -1,6 +1,7 @@
 package com.restapi.todolist.payload.request;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

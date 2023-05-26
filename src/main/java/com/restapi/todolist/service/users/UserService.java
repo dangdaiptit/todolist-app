@@ -4,6 +4,7 @@ import com.restapi.todolist.models.users.User;
 import com.restapi.todolist.payload.request.ChangeEmailRequest;
 import com.restapi.todolist.payload.request.ChangePasswordRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
+import com.restapi.todolist.payload.request.admin.AdminChangeEmailRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public interface UserService {
 
     void changePasswordById(Long id, User user);
 
-    void changeEmailById(Long id, User user);
+    void changeEmailById(Long id, AdminChangeEmailRequest adminChangeEmailRequest);
 
     void changeRoleById(Long id, ChangeRoleRequest changeRoleRequest);
 

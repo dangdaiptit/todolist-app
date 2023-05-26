@@ -2,12 +2,15 @@ package com.restapi.todolist.controllers.user;
 
 
 import com.restapi.todolist.models.users.User;
+import com.restapi.todolist.payload.request.admin.AdminChangeEmailRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
 import com.restapi.todolist.payload.response.MessageResponse;
 import com.restapi.todolist.service.users.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,11 +29,24 @@ public class AdminController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/users/{userId}/change-password")
+    @GetMapping("users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getAllUser() {
+        return ResponseEntity.ok(userService.getAllUser());
+    }
+
+    @PutMapping("/users/{userId}/change-password")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> changePassword(@PathVariable Long userId, @RequestBody User user) {
         userService.changePasswordById(userId, user);
         return ResponseEntity.ok(new MessageResponse("The password of the user with id " + userId + " has been changed successfully"));
+    }
+
+    @PutMapping("/users/{userId}/change-email")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> changeEmail(@PathVariable Long userId, @Valid @RequestBody AdminChangeEmailRequest adminChangeEmailRequest) {
+        userService.changeEmailById(userId, adminChangeEmailRequest);
+        return ResponseEntity.ok(new MessageResponse("The email of the user with id " + userId + " has been changed success"));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -41,7 +57,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("users/{id}")
+    @PutMapping("users/{id}/change-roles")
     public ResponseEntity<?> editRoleById(@PathVariable Long id, @RequestBody ChangeRoleRequest changeRoleRequest) {
         userService.changeRoleById(id, changeRoleRequest);
         return ResponseEntity.ok(new MessageResponse("Change roles successfully"));
