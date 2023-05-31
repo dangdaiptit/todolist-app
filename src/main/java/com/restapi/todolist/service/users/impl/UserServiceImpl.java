@@ -5,6 +5,7 @@ import com.restapi.todolist.models.users.Role;
 import com.restapi.todolist.models.users.User;
 import com.restapi.todolist.payload.request.ChangeEmailRequest;
 import com.restapi.todolist.payload.request.ChangePasswordRequest;
+import com.restapi.todolist.payload.request.EmailRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
 import com.restapi.todolist.payload.request.admin.AdminChangeEmailRequest;
 import com.restapi.todolist.payload.request.admin.ChangeRoleRequest;
@@ -87,8 +88,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void requestPasswordReset(String email) {
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
+    public void requestPasswordReset(EmailRequest emailRequest) {
+        User user = userRepository.findUserByEmail(emailRequest.getEmail()).orElseThrow(() -> new EntityNotFoundException("User not found with email: " + emailRequest.getEmail()));
         String otp = generateOtp();
         user.setOtp(passwordEncoder.encode(otp));
         user.setOtpExpireTime(LocalDateTime.now().plusMinutes(5));

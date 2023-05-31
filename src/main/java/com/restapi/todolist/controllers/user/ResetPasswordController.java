@@ -1,17 +1,15 @@
 package com.restapi.todolist.controllers.user;
 
+import com.restapi.todolist.payload.request.EmailRequest;
 import com.restapi.todolist.payload.request.OtpVerificationRequest;
 import com.restapi.todolist.payload.request.ResetPasswordRequest;
 import com.restapi.todolist.payload.response.MessageResponse;
 import com.restapi.todolist.payload.response.ResetPasswordResponse;
 import com.restapi.todolist.service.users.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/reset-password")
@@ -25,15 +23,9 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<?> requestPasswordReset(@RequestParam String email) {
-        try {
-            userService.requestPasswordReset(email);
-            return ResponseEntity.ok().body(new MessageResponse("An email has been sent to your email address with instructions to reset your password."));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("User not found with email: " + email));
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Failed to send email for password reset request."));
-        }
+    public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody EmailRequest emailRequest) {
+        userService.requestPasswordReset(emailRequest);
+        return ResponseEntity.ok().body(new MessageResponse("An email has been sent to your email address with instructions to reset your password."));
     }
 
     @PostMapping("/verify-otp")
