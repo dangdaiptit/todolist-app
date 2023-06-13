@@ -63,6 +63,8 @@ public class WebSecurityConfig {
                 .antMatchers("/api/auth/logout").authenticated()
                 .antMatchers("/api/reset-password/**").permitAll()
                 .antMatchers("/api/users/check/**").permitAll()
+                .antMatchers("/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
