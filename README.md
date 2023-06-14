@@ -1,5 +1,7 @@
 # Mytodos App API
+Mytodos App API is a Spring Boot API project that allows users to create and manage tasks in their daily life. With this API, users can create tasks, set time, set labels, mark complete and delete tasks.
 
+The project is built on Spring Boot platform, uses MySQL database and uses RESTful methods to transfer data.
 ## Java version
 
 - Java 19
