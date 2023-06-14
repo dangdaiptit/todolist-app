@@ -23,14 +23,15 @@ The project is built on Spring Boot platform, uses MySQL database and uses RESTf
 - Postman
 
 ## API Reference
-- API provides login, registration, logout, CURD functions for user, todo, admin.
-- Spring Boot JWT Authentication and Authorization access token, refresh token, reset password, spring mail server.
+- API provides `login`, `registration`, `logout`, `CURD functions for user, todo, admin`.
+- Spring Boot JWT `Authentication` and `Authorization`, access token, refresh token, reset password, spring mail server.
 - Specific details how to use the API, you can access swagger-ui:
-  https://mytodobackend.herokuapp.com/swagger-ui/index.html
+[SwaggerUI](https://mytodobackend.herokuapp.com/swagger-ui/index.html)
+  
 
 ## Setup local
 
-- Run 'docker-local.yml' file, create environment for mysql
+- Run `docker-local.yml` file, create environment for mysql
 
 ```shell
 # Use root/example as user/password credentials
@@ -65,7 +66,7 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
 ```
 
-- Then connect the db according to the mysql configuration information in dokcer.
+- Then connect the db according to the mysql configuration information in docker.
 
 
 
