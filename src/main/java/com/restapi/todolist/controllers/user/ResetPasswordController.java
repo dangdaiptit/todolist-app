@@ -23,7 +23,7 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody EmailRequest emailRequest) {
+    public ResponseEntity<MessageResponse> requestPasswordReset(@Valid @RequestBody EmailRequest emailRequest) {
         userService.requestPasswordReset(emailRequest);
         return ResponseEntity.ok().body(new MessageResponse("An email has been sent to your email address with instructions to reset your password."));
     }
@@ -42,7 +42,7 @@ public class ResetPasswordController {
 
 
     @PutMapping()
-    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest, @RequestParam String email) {
+    public ResponseEntity<MessageResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest, @RequestParam String email) {
         if (!isOtpVerified) {
             return ResponseEntity.badRequest().body(new MessageResponse("OTP code not verified."));
         }

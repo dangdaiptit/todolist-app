@@ -27,10 +27,10 @@ public class TodoController {
 
     //Get todos list of logged-in users
     @GetMapping()
-    public ResponseEntity<?> getAllTodoByUser() {
+    public ResponseEntity<List<Todo>> getAllTodoByUser() {
         List<Todo> todos = todoService.getAllTodoByUser();
         if (todos.isEmpty()) {
-            return ResponseEntity.ok(new MessageResponse("List is empty"));
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(todos);
         }
@@ -56,7 +56,7 @@ public class TodoController {
 
     //delete todos of logged-in users
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteTodoById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponse> deleteTodoById(@PathVariable Long id) {
         todoService.deleteTodoById(id);
         return ResponseEntity.ok(new MessageResponse("Delete todo successfully"));
     }

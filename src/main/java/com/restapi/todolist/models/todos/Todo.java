@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -23,7 +23,7 @@ public class Todo {
     private String description;
 
     @Column(nullable = false)
-    private Date targetDate;
+    private LocalDate targetDate;
 
     @Column(nullable = false)
     private boolean completed;

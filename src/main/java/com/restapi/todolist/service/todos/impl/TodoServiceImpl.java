@@ -6,7 +6,6 @@ import com.restapi.todolist.repository.users.UserRepository;
 import com.restapi.todolist.service.todos.TodoService;
 import com.restapi.todolist.validation.todos.TodoAccessValidator;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +36,12 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.save(newTodo);
     }
 
+
     @Override
-    @PostFilter("filterObject.user.id == authentication.principal.id")
     public List<Todo> getAllTodoByUser() {
-        return todoRepository.findAll();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var username = authentication.getName();
+        return todoRepository.findAllByUserUsername(username);
     }
 
     @Override

@@ -26,13 +26,13 @@ public class UserController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<MessageResponse> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
         userService.changePassword(changePasswordRequest);
         return ResponseEntity.ok(new MessageResponse("Your password has been changed successfully"));
     }
 
     @PostMapping("/change-email")
-    public ResponseEntity<?> changeEmail(@Valid @RequestBody ChangeEmailRequest changeEmailRequest) {
+    public ResponseEntity<MessageResponse> changeEmail(@Valid @RequestBody ChangeEmailRequest changeEmailRequest) {
         userService.changeEmail(changeEmailRequest);
         return ResponseEntity.ok(new MessageResponse("Your email has been changed successfully"));
     }
@@ -49,7 +49,7 @@ public class UserController {
 
 
     @GetMapping("/user-information")
-    public ResponseEntity<?> getUser() {
+    public ResponseEntity<User> getUser() {
         User user = userService.getUser();
         return ResponseEntity.ok(user);
     }
