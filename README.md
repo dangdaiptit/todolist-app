@@ -68,5 +68,19 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
 - Then connect the db according to the mysql configuration information in docker.
 
+## Demo
+The project was built using Angular and deployed to heroku. [Click here](https://mytodos.herokuapp.com/) to see the demo.
+## Account test
+This is the login of the app built with Angular.
 
+**Admin:**
+```
+username: admin
+password: Admin@123
+```
+**User:**
+```
+username: user
+password: User@123
+```
 
